@@ -1,0 +1,86 @@
+@import 'variables';
+
+.navbar {
+  padding: 20px;
+  margin-bottom: 40px;
+
+  .bwm-search {
+    height: 50px;
+    width: 300px;
+  }
+
+  .navbar-brand {
+    margin-right: 30px;
+    font-size: 30px;
+    letter-spacing: 1px;
+    color: $main-color;
+    font-weight: 500;
+
+    img {
+      margin-top: 15px;
+      height: 20px;
+    }
+  }
+
+
+
+  .nav-item {
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 1px;
+
+    .active {
+      transition: all .5s ease;
+      background-color: $main-color;
+      color: white;
+      border-radius: 5%;
+    }
+
+    .nav-link {
+      transition: all .5s ease;
+      border: 1px solid transparent;
+      font-weight: bold;
+
+    }
+
+    .nav-link:not(.active) {
+      color: rgb(41, 41, 41);
+
+
+    }
+
+    .nav-link:hover {
+      transition: all .5s ease;
+      background-color: $main-color;
+      color: white;
+      border-radius: 5%;
+      border: 1px solid $main-color;
+
+    }
+  }
+
+  .btn-bwm-search {
+    border-color: $main-color;
+    color: $main-color;
+
+    &:hover,
+    &:focus,
+    &:active {
+      // background-color: transparent;
+      background-color: $main-color;
+      // border-color: $main-color !important;
+      color: white;
+      // box-shadow: none;
+    }
+  }
+
+  .dropdown-item {
+    font-size: 14px;
+
+    &:active,
+    &:focus {
+      background-color: $main-color;
+    }
+
+  }
+}
