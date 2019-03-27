@@ -1,61 +1,16 @@
 const Rental = require('./models/rental');
 const User = require('./models/user');
+const fakeDbData = require('./data.json');
+const Booking = require('./models/booking');
 class FakeDb {
   constructor() {
-    this.rental = [
-      {
-        title: 'Central Apartment',
-        city: 'New York',
-        street: 'Times Square',
-        category: 'apartment',
-        image:
-          'https://cdn.houseplans.com/product/q5qkhirat4bcjrr4rpg9fk3q94/w800x533.jpg',
-        bedrooms: 3,
-        description: 'Very nice apartment',
-        dailyRate: 34,
-        shared: false
-      },
-      {
-        title: 'Central Apartment 2',
-        city: 'sen Francisco',
-        street: 'Main Street',
-        category: 'condo',
-        image:
-          'https://cdn.houseplans.com/product/q5qkhirat4bcjrr4rpg9fk3q94/w800x533.jpg',
-        bedrooms: 2,
-        description: 'Very nice apartment',
-        dailyRate: 12,
-        shared: true
-      },
-      {
-        title: 'Central Apartment 3',
-        city: 'New York',
-        street: 'Times Square',
-        category: 'apartment',
-        image:
-          'https://cdn.houseplans.com/product/q5qkhirat4bcjrr4rpg9fk3q94/w800x533.jpg',
-        bedrooms: 3,
-        description: 'Very nice apartment',
-        dailyRate: 34,
-        shared: false
-      }
-    ];
-    this.users = [
-      {
-        username: 'Test User',
-        email: 'test@gmail.com',
-        password: '$2a$12$tyM7j0TJm8toNxAeUUgH7uywEl7deJFdrJVfjfUY4gQWr.UJcEAcG'
-      },
-      {
-        username: 'Test User1',
-        email: 'test1@gmail.com',
-        password: '$2a$12$tyM7j0TJm8toNxAeUUgH7uywEl7deJFdrJVfjfUY4gQWr.UJcEAcG'
-      }
-    ];
+    this.rental = fakeDbData.rentals;
+    this.users = fakeDbData.users;
   }
   async clearDb() {
     await User.deleteMany({});
     await Rental.deleteMany({});
+    await Booking.deleteMany({});
   }
   pushDataToDb() {
     const user = new User(this.users[0]);

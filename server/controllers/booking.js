@@ -5,7 +5,9 @@ const MongooseHelpers = require('../helpers/mongoose');
 exports.createBooking = async (req, res, next) => {
   let { startAt, endAt, totalPrice, guests, days, rental } = req.body;
   try {
+    console.log(req.body);
     const user = res.locals.user;
+    console.log(user);
     const err = new Error();
     const booking = new Booking({
       startAt: new Date(
@@ -32,25 +34,25 @@ exports.createBooking = async (req, res, next) => {
       .exec();
     if (foundrental.user._id.toString() === user._id.toString()) {
       // console.log(foundrental);
-      err.error = [
+      err.errors = [
         {
           title: 'Invalid User!',
           detail: 'Cannot create booking on your Rental!',
           status: 403
         }
       ];
-      throw err.error;
+      throw err.errors;
     }
     // console.log(foundrental.user);
     if (!isValidBooking(booking, foundrental)) {
-      err.error = [
+      err.errors = [
         {
           title: 'Invalid Booking!',
           detail: 'Choosen dates are already taken!',
           status: 403
         }
       ];
-      throw err.error;
+      throw err.errors;
     }
     booking.user = user;
     booking.rental = foundrental;
@@ -66,7 +68,7 @@ exports.createBooking = async (req, res, next) => {
       throw err.errors;
     }
     await booking.save();
-    await User.update({ _id: user._id }, { $push: { bookings: booking } });
+    await User.updateOne({ _id: user._id }, { $push: { bookings: booking } });
     res.status(201).json({ startAt: booking.startAt, endAt: booking.endAt });
   } catch (err) {
     if (err.errors) {

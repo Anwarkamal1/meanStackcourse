@@ -58,8 +58,9 @@ export class RentalDetailBookingComponent implements OnInit {
     return (
       this.bookedOutDates.includes(
         this.helperService.formatBookingDate(date)
-      ) || new Date(date).getTime() - new Date().getTime() < 0
+      ) || date.diff(moment(), 'days') < 0
     );
+
     // return (
     //   this.bookedOutDates.includes(moment(date)) ||
     //   date.diff(moment(), 'days') < 0
@@ -85,11 +86,11 @@ export class RentalDetailBookingComponent implements OnInit {
     );
     this.bookedOutDates.push(...dateRange);
   }
-  resetDatePicker() {
-    this.picker.datePicker.setStartDate(Date.now());
-    this.picker.datePicker.setEndDate(Date.now());
+  private resetDatePicker() {
+    this.picker.datePicker.setStartDate(new Date());
+    this.picker.datePicker.setEndDate(new Date());
     this.picker.datePicker.element.val('');
-    console.log(this.picker.datePicker);
+    // console.log(this.picker.datePicker);
   }
   openConfirmModal(content) {
     this.errors = [];
@@ -114,7 +115,7 @@ export class RentalDetailBookingComponent implements OnInit {
       err => {
         this.errors.push(err.error[0]);
         this.notifyService.onWarning(err.error[0].detail, err.error[0].title);
-        // console.log(err.error);
+        console.log(err.error);
       }
     );
   }

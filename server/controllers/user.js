@@ -14,14 +14,14 @@ exports.auth = async (req, res, next) => {
     // console.log(req.body.email);
     const user = await User.findOne({ email });
     if (!user) {
-      err.error = [
+      err.errors = [
         {
           title: 'Login failed',
           detail: 'User with that email does not exist in database!',
           status: 401
         }
       ];
-      throw err.error;
+      throw err.errors;
     } else {
       const hashedpassword = await bcrypt.compare(
         req.body.password,
@@ -38,7 +38,7 @@ exports.auth = async (req, res, next) => {
         return res.json({ token: token });
         // res.status(200).json({ user: user, ok: true });
       } else {
-        err.error = [
+        err.errors = [
           {
             title: 'Login failed',
             detail: 'Password is Not Correct!',
@@ -46,12 +46,13 @@ exports.auth = async (req, res, next) => {
           }
         ];
 
-        throw err.error;
+        throw err.errors;
       }
     }
   } catch (err) {
-    console.log(err);
+    // console.log(err, 53);
     if (err.errors) {
+      // console.log(err, 55);
       err = MongooseHelpers.normalizeErrors(err.errors);
     }
     next(err);
