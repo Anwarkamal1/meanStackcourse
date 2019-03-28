@@ -18,6 +18,7 @@ import * as moment from 'moment';
 import { BookingService } from './../../../booking/shared/booking.service';
 import { DaterangePickerComponent } from 'ng2-daterangepicker';
 import { element } from 'protractor';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -47,7 +48,7 @@ export class RentalDetailBookingComponent implements OnInit {
     private helperService: HelperService,
     private modelService: NgbModal,
     private bookingService: BookingService,
-    private notifyService: NotificationService
+    private notify: NotificationService
   ) {}
 
   ngOnInit() {
@@ -107,15 +108,14 @@ export class RentalDetailBookingComponent implements OnInit {
         this.newBooking = new Booking();
         this.modelREf.close();
         this.resetDatePicker();
-        this.notifyService.onSuccess(
+        this.notify.onSuccess(
           'Booking created Successfully, Check your "Manage" section!',
           'Success'
         );
       },
-      err => {
-        this.errors.push(err.error[0]);
-        this.notifyService.onWarning(err.error[0].detail, err.error[0].title);
-        console.log(err.error);
+      (err: HttpErrorResponse) => {
+        this.errors.push(...err.error);
+        this.notify.getErrors(err);
       }
     );
   }

@@ -20,6 +20,12 @@ p {
   color: #df1818;
 }
 
+.page-title {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
 
 // .page-title {
 //   font-size: 30px;
@@ -74,6 +80,7 @@ p {
     font-weight: 700;
     margin-bottom: 30px;
   }
+
   .image-container {
     position: relative;
 
@@ -85,6 +92,8 @@ p {
 
   label {
     font-size: 12px;
+    margin-top: -2px;
+    vertical-align: middle;
   }
 
   .form-text {
@@ -97,7 +106,7 @@ p {
     position: absolute;
     color: #f1f1f1;
     padding: 40px;
-    background-color: rgba(0,0,0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     margin-top: 50px;
     letter-spacing: 1px;
   }
@@ -116,4 +125,3 @@ p {
     }
   }
 }
-

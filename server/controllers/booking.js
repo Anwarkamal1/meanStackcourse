@@ -5,9 +5,7 @@ const MongooseHelpers = require('../helpers/mongoose');
 exports.createBooking = async (req, res, next) => {
   let { startAt, endAt, totalPrice, guests, days, rental } = req.body;
   try {
-    console.log(req.body);
     const user = res.locals.user;
-    console.log(user);
     const err = new Error();
     const booking = new Booking({
       startAt: new Date(
