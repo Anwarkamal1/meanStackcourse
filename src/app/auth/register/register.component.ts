@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  formData: any = { };
+  formData: any = {};
   errors: any[] = [];
 
   constructor(private auth: AuthService, private router: Router) {}
@@ -19,13 +19,13 @@ export class RegisterComponent implements OnInit {
     console.log(this.formData);
 
     this.auth.register(this.formData).subscribe(
-      (data) => {
-// console.log(data);
+      data => {
+        // console.log(data);
         this.router.navigate(['/login', { registered: 'success' }]);
       },
       errorResponse => {
         // this.errors = errorResponse.error.errors;
-                this.errors = errorResponse.error;
+        this.errors = errorResponse.error;
         // console.log(errorResponse.error[0]);
       }
     );

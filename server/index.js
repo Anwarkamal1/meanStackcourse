@@ -14,10 +14,15 @@ app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
 const PORT = process.env.PORT || 3000;
 app.use((error, req, res, next) => {
-  if (error[0].hasOwnProperty('status') !== true) {
-    error[0].status = 500;
+  if (error.length > 0) {
+    if (error[0].hasOwnProperty('status') !== true) {
+      error[0].status = 500;
+    }
+    return res.status(error[0].status).send(error);
   }
-  res.status(error[0].status).send(error);
+  res
+    .status(500)
+    .send({ title: 'Server Error', detail: 'Server is not responding!' });
   // console.log(error);
   // res.status(500).send(error);
 });
