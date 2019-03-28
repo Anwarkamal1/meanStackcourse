@@ -98,7 +98,6 @@ exports.register = async (req, res, next) => {
       ];
       throw err.errors;
     }
-
     const user = await User.findOne({ email });
     if (user) {
       err.errors = [

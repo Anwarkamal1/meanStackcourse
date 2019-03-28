@@ -92,3 +92,28 @@ function isValidBooking(proposedBooking, rental) {
   }
   return isValid;
 }
+exports.getUserBookings = async (req, res, next) => {
+  const user = res.locals.user;
+  const err = new Error();
+  try {
+    const bookings = await Booking.where({ user })
+      .populate('rental')
+      .exec();
+    if (!bookings) {
+      err.errors = [
+        {
+          title: `Not found`,
+          detail: `You have no Bookings yet!`,
+          status: 404
+        }
+      ];
+      throw err.errors;
+    }
+    res.status(200).json({ bookings: bookings });
+  } catch (error) {
+    if (err.errors) {
+      err = MongooseHelper.normalizeErrors(err.errors);
+    }
+    next(err);
+  }
+};
