@@ -14,4 +14,10 @@ export class RentalService {
   getRentals(): Observable<any> {
     return this.http.get<any>('/api/v1/rentals');
   }
+  getRentalsByCity(city: string): Observable<any> {
+    return this.http.get<any>(`/api/v1/rentals?city=${city}`);
+  }
+  create(rental: Rental): Observable<any> {
+    return this.http.post<any>(`/api/v1/rentals`, rental);
+  }
 }

@@ -8,6 +8,7 @@ const ObjectId = mongoose.Types.ObjectId;
 
 exports.createRental = async (req, res, next) => {
   const err = new Error();
+
   const {
     title,
     city,
@@ -50,9 +51,8 @@ exports.createRental = async (req, res, next) => {
     ).exec();
     res.status(200).json({ rental: newRental });
   } catch (err) {
-    console.log(err);
     if (err.errors) {
-      err = MongooseHelpers.normalizeErrors(err.errors);
+      err = MongooseHelper.normalizeErrors(err.errors);
     }
     next(err);
   }
@@ -90,7 +90,7 @@ exports.getRentals = async (req, res, next) => {
     res.status(200).json({ rentals: rentals, ok: true });
   } catch (err) {
     if (err.errors) {
-      err = MongooseHelpers.normalizeErrors(err.errors);
+      err = MongooseHelper.normalizeErrors(err.errors);
     }
     next(err);
   }
@@ -116,7 +116,7 @@ exports.getRental = async (req, res, next) => {
     res.status(200).json({ rental: rental });
   } catch (err) {
     if (err.errors) {
-      err = MongooseHelpers.normalizeErrors(err.errors);
+      err = MongooseHelper.normalizeErrors(err.errors);
     }
     next(err);
   }

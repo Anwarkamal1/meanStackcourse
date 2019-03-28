@@ -7,6 +7,15 @@ import { ToastrService } from 'ngx-toastr';
 export class NotificationService {
   constructor(private toastr: ToastrService) {}
 
+  getErrors(err: any) {
+    let errormsg = '';
+    let errortitle = '';
+    for (const error of err.error) {
+      errormsg += error.detail + '\n';
+      errortitle += error.title + '\n';
+    }
+    this.onError(errormsg, errortitle);
+  }
   onSuccess(message, title) {
     this.toastr.success(message, title, {
       closeButton: true

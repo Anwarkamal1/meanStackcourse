@@ -41,15 +41,6 @@
   .should-login {
     text-align: center;
     margin-bottom: 10px;
-
-    // .btn-bwm {
-    //   padding: 15px;
-
-    //   &:focus,
-    //   &:hover {
-    //     color: white;
-    //   }
-    // }
   }
 
   .btn-confirm {
@@ -109,4 +100,26 @@ p {
 
 .modal-error {
   margin: 16px;
+}
+
+.btn-logininfo {
+  font-size: 15px;
+  background-color: $main-color;
+  color: white;
+  padding: 10px;
+
+  transition: box-shadow .5s ease;
+
+  &:hover {
+    box-shadow: 0 0 5px 1px lightgray;
+    color: white;
+  }
+}
+
+.booking {
+  transition: box-shadow .5s ease;
+
+  &:hover {
+    box-shadow: 0 5px 5px 1px lightgray;
+  }
 }
