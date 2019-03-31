@@ -1,17 +1,28 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const config = require('./config/dev');
+const config = require('./config');
 const http = require('http');
+const path = require('path');
 const bodyParser = require('body-parser');
 const rentalRoutes = require('./routes/rentals');
 const userRoutes = require('./routes/users');
 const bookingRoutes = require('./routes/bookings');
+const rootDir = require('./utils/rootdir');
 const FakeDb = require('./fake-db');
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/v1/rentals', rentalRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
+if (process.env.NODE_ENV === 'production') {
+  const appPath = path.join(rootDir, '..', 'dist');
+  app.use(express.static(appPath));
+
+  app.get('*', function(req, res, next) {
+    res.sendFile(path.resolve(appPath, 'index.html'));
+  });
+}
 const PORT = process.env.PORT || 3000;
 app.use((error, req, res, next) => {
   if (error.length > 0) {
@@ -23,8 +34,6 @@ app.use((error, req, res, next) => {
   res
     .status(500)
     .send({ title: 'Server Error', detail: 'Server is not responding!' });
-  // console.log(error);
-  // res.status(500).send(error);
 });
 // mongoose.connect(config.DB_URI, { useNewUrlParser: true }).then(data => {
 //   console.log('DataBase Connected Successfully...');
@@ -45,8 +54,10 @@ const ser = server.listen(PORT, () => {
 
     .then(db => {
       console.log('Database Connected Successfully..');
-      // const fakedb = new FakeDb();
-      // fakedb.seedDb();
+      if (process.env.NODE_ENV !== 'production') {
+        // const fakedb = new FakeDb();
+        // fakedb.seedDb();
+      }
     })
     .catch(err => {
       console.log('not connected');

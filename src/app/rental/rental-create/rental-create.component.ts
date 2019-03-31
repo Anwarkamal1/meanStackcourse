@@ -22,7 +22,7 @@ export class RentalCreateComponent implements OnInit {
     private notify: NotificationService
   ) {}
 
-  handleImageChange() {
+  handleImageChange(img) {
     this.newRental.image =
       'https://booksync-jerga-prod.s3.amazonaws.com/uploads/rental/image/13/image.jpeg';
   }

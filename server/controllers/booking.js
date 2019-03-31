@@ -49,7 +49,6 @@ exports.createBooking = async (req, res, next) => {
       guests,
       days
     });
-    console.log(booking);
     const foundrental = await Rental.findOne({ _id: rental._id })
       .populate('bookings')
       .populate('user')
@@ -93,7 +92,6 @@ exports.createBooking = async (req, res, next) => {
     await User.updateOne({ _id: user._id }, { $push: { bookings: booking } });
     res.status(201).json({ startAt: booking.startAt, endAt: booking.endAt });
   } catch (err) {
-    console.log(err);
     if (err.errors) {
       err = MongooseHelpers.normalizeErrors(err.errors);
     }
@@ -134,7 +132,6 @@ function isValidBooking(proposedBooking, rental) {
       );
     });
   }
-  console.log(isValid);
   return isValid;
 }
 exports.getUserBookings = async (req, res, next) => {
@@ -167,7 +164,6 @@ function populateDate(start, end, sfirstDay, sendDay, efirstDay, eendDay) {
     end12 = true;
   let startAt, endAt;
   if (start[1] === '12') {
-    console.log('IN start12');
     if (start[2] > 0 && start[2] < 10) {
       startAt = `${+start[0]}-12-0${+start[2]}T19:00:00.000Z`;
     } else {
@@ -176,7 +172,6 @@ function populateDate(start, end, sfirstDay, sendDay, efirstDay, eendDay) {
     start12 = false;
   }
   if (end[1] === '12') {
-    console.log('in end12');
     end12 = false;
     if (end[2] > 0 && end[2] < 10) {
       endAt = `${+end[0]}-12-0${+start[2]}T19:00:00.000Z`;
@@ -191,8 +186,6 @@ function populateDate(start, end, sfirstDay, sendDay, efirstDay, eendDay) {
     if (+start[2] === sfirstDay) {
       start[2] = 1 + '';
       isstartTrue = true;
-      console.log('In starts');
-      console.log('In starts');
     }
     if (+start[2] === sendDay) {
       start[2] = 1 + '';
