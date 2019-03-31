@@ -9,6 +9,7 @@ import { RentalModule } from './rental/rental.module';
 import { AuthModule } from './auth/auth.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
+import { ManageModule } from './manage/manage.module';
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
   imports: [
@@ -19,7 +20,8 @@ import { ToastrModule } from 'ngx-toastr';
     NgbModule.forRoot(),
 
     ToastrModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ManageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

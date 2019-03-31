@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" [routerLink]="['/rentals']" routerLinkActive="router-link-active">StayWithUs</a>
+  <a class="navbar-brand" [routerLink]="['/rentals']" routerLinkActive="router-link-active">StayWithUs <img
+      src="favicon.ico" alt="" srcset=""></a>
   <div class="form-inline">
     <input #citySearch (keyup.enter)='search(citySearch.value)' class="form-control mr-sm-2 bwm-search" type="search"
       placeholder="Search" aria-label="Search" />
@@ -37,6 +38,12 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinnk">
             <a class="dropdown-item nav-link" [routerLink]="['/rentals/new']" routerLinkActive="router-link-active">
               Create Rental
+            </a>
+            <a class="dropdown-item nav-link" [routerLink]="['/manage/rentals']" routerLinkActive="router-link-active">
+              Manage Rentals
+            </a>
+            <a class="dropdown-item nav-link" [routerLink]="['/manage/bookings']" routerLinkActive="router-link-active">
+              Manage Bookings
             </a>
 
           </div>

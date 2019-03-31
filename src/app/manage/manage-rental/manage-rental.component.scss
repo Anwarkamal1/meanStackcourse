@@ -1,0 +1,114 @@
+@import 'variables';
+
+#userRentals {
+
+
+  .card {
+    margin-bottom: 20px;
+    transition: box-shadow .5s ease;
+
+    &:hover {
+      box-shadow: 0 0 5px 1px lightgray;
+    }
+
+  }
+
+  .card-block {
+    padding: 20px;
+  }
+
+  .card-title {
+    font-size: 14px;
+  }
+
+  .btn-bwm {
+    font-size: 12px;
+    color: white;
+    padding: 10px 15px;
+    background-color: $main-color;
+  }
+
+  // .btn-ghost {
+  //   padding: 10px 15px;
+  //   margin: 1px;
+  //   font-size: 12px;
+
+  // }
+
+  .btnrental {
+    padding: 10px 15px;
+    border: 1px solid $main-color !important;
+    font-size: 12px;
+
+    &:hover,
+    &:focus {
+      background-color: $light-yellow;
+      border: 1px solid $light-yellow !important;
+
+    }
+  }
+
+
+  .btn-delete {
+    float: right;
+    font-size: 10px;
+  }
+
+  .btn-edit {
+    font-size: 10px;
+    color: whitesmoke;
+    padding: 10px 15px;
+    float: right;
+    margin-right: 10px;
+    border: 1px solid $light-yellow !important;
+
+    background-color: $light-yellow;
+
+    &:hover {
+      background-color: rgb(28, 179, 28) !important;
+      border: 1px solid rgb(28, 179, 28) !important;
+    }
+  }
+
+  .btn-success,
+  .btn-danger {
+    font-size: 12px;
+    margin: 1px;
+  }
+
+  .card-footer {
+    font-size: 12px;
+
+    p {
+      display: inline-block;
+      line-height: 40px;
+      margin: 0;
+    }
+
+    .confirm-message {
+      font-weight: bold;
+      margin-right: 10px
+    }
+  }
+
+  .btn-bookings {
+    border-color: $main-color;
+    background-color: transparent;
+    color: $main-color;
+
+    &:hover,
+    &:focus {
+      border-color: $main-color !important;
+      background-color: transparent !important;
+      color: $main-color !important;
+    }
+  }
+}
+
+
+.bookings-inner-container {
+  p {
+    font-size: 14px;
+    margin-bottom: 0px;
+  }
+}
