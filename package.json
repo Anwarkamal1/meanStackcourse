@@ -1,10 +1,17 @@
 {
   "name": "mean-course",
   "version": "0.0.0",
+  "engines": {
+    "node": "10.15.7",
+    "npm": "6.4.1"
+  },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.json",
-    "build": "ng build",
+    "start": "npm run start --prefix server",
+    "start-dev": "ng serve --proxy-config proxy.conf.json",
+
+    "build": "ng build --prod",
+    "heroku-postbuild": "npm run build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

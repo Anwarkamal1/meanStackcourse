@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 const MongooseHelpers = require('../helpers/mongoose');
-const config = require('../config/dev');
+const config = require('../config');
 const ObjectId = mongoose.Types.ObjectId;
 exports.auth = async (req, res, next) => {
   try {

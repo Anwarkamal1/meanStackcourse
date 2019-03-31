@@ -43,7 +43,7 @@ export class RentalDetailBookingComponent implements OnInit {
   };
 
   constructor(
-    private auth: AuthService,
+    public auth: AuthService,
     private helperService: HelperService,
     private modelService: NgbModal,
     private bookingService: BookingService,

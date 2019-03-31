@@ -8,8 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ManageRentalBookingComponent implements OnInit {
   @Input('bookings') bookings: Booking[];
-  constructor(private modalService: NgbModal) {}
+  constructor(public modalService: NgbModal) {}
 
   ngOnInit() {}
-
 }
