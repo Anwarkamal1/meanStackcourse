@@ -5,27 +5,51 @@ const MongooseHelpers = require('../helpers/mongoose');
 exports.createBooking = async (req, res, next) => {
   let { startAt, endAt, totalPrice, guests, days, rental } = req.body;
   try {
+    // console.log(req.body);
+    let start = req.body.startAt.split('/');
+    let end = req.body.endAt.split('/');
+    let startd = req.body.startAt.split('-');
+    let endd = req.body.endAt.split('-');
+    var sfirstDay = new Date(+start[0], +start[1], 1).getDate();
+    var slastDay = new Date(+start[0], +start[1], 0).getDate();
+    var efirstDay = new Date(+end[0], +end[1], 1).getDate();
+    var elastDay = new Date(+end[0], +end[1], 0).getDate();
+
+    if (start.length > 1) {
+      const dates = populateDate(
+        start,
+        end,
+        sfirstDay,
+        slastDay,
+        efirstDay,
+        elastDay
+      );
+      startAt = dates.startAt;
+      endAt = dates.endAt;
+    }
+    if (startd.length > 1) {
+      const dates = populateDate(
+        startd,
+        endd,
+        sfirstDay,
+        slastDay,
+        efirstDay,
+        elastDay
+      );
+      startAt = dates.startAt;
+      endAt = dates.endAt;
+    }
+
     const user = res.locals.user;
     const err = new Error();
     const booking = new Booking({
-      startAt: new Date(
-        new Date(startAt).getFullYear() +
-          ' ' +
-          (new Date(startAt).getMonth() + 1) +
-          ' ' +
-          new Date(startAt).getDate()
-      ).toLocaleDateString(),
-      endAt: new Date(
-        new Date(endAt).getFullYear() +
-          ' ' +
-          (new Date(endAt).getMonth() + 1) +
-          ' ' +
-          new Date(endAt).getDate()
-      ).toLocaleDateString(),
+      startAt,
+      endAt,
       totalPrice,
       guests,
       days
     });
+    console.log(booking);
     const foundrental = await Rental.findOne({ _id: rental._id })
       .populate('bookings')
       .populate('user')
@@ -69,6 +93,7 @@ exports.createBooking = async (req, res, next) => {
     await User.updateOne({ _id: user._id }, { $push: { bookings: booking } });
     res.status(201).json({ startAt: booking.startAt, endAt: booking.endAt });
   } catch (err) {
+    console.log(err);
     if (err.errors) {
       err = MongooseHelpers.normalizeErrors(err.errors);
     }
@@ -79,17 +104,37 @@ exports.createBooking = async (req, res, next) => {
 function isValidBooking(proposedBooking, rental) {
   let isValid = true;
   if (rental.bookings && rental.bookings.length > 0) {
-    const proposedStart = +new Date(proposedBooking.startAt);
-    const proposedEnd = +new Date(proposedBooking.endAt);
+    const proposedStart = new Date(proposedBooking.startAt);
+    const proposedEnd = new Date(proposedBooking.endAt);
     isValid = rental.bookings.every(booking => {
-      const actualStart = +new Date(booking.startAt);
-      const actualEnd = +new Date(booking.endAt);
+      let startd = booking.startAt.split('T')[0].split('-');
+
+      let endd = booking.endAt.split('T')[0].split('-');
+      let actualStart = -1;
+      let actualEnd = -1;
+      if (+startd[1] === 12) {
+        start12 = false;
+        actualStart = +new Date(`${+startd[0]}-12-${+startd[2]}`);
+      } else if (+endd[1] === 1) {
+        actualStart = +new Date(`${+startd[0]}-01-${+startd[2]}`);
+      } else {
+        actualStart = +new Date(booking.startAt);
+      }
+      if (+endd[1] === 12) {
+        end12 = false;
+        actualEnd = +new Date(`${+endd[0]}-12-${+endd[2]}`);
+      } else if (+endd[1] === 1) {
+        actualEnd = +new Date(`${+endd[0]}-01-${+endd[2]}`);
+      } else {
+        actualEnd = +new Date(booking.endAt);
+      }
       return (
         (actualStart < proposedStart && actualEnd < proposedEnd) ||
         (proposedEnd < actualEnd && proposedEnd < actualStart)
       );
     });
   }
+  console.log(isValid);
   return isValid;
 }
 exports.getUserBookings = async (req, res, next) => {
@@ -99,7 +144,7 @@ exports.getUserBookings = async (req, res, next) => {
     const bookings = await Booking.where({ user })
       .populate('rental')
       .exec();
-    if (!bookings) {
+    if (bookings.length <= 0) {
       err.errors = [
         {
           title: `Not found`,
@@ -110,10 +155,77 @@ exports.getUserBookings = async (req, res, next) => {
       throw err.errors;
     }
     res.status(200).json({ bookings: bookings });
-  } catch (error) {
+  } catch (err) {
     if (err.errors) {
-      err = MongooseHelper.normalizeErrors(err.errors);
+      err = MongooseHelpers.normalizeErrors(err.errors);
     }
     next(err);
   }
 };
+function populateDate(start, end, sfirstDay, sendDay, efirstDay, eendDay) {
+  let start12 = true,
+    end12 = true;
+  let startAt, endAt;
+  if (start[1] === '12') {
+    console.log('IN start12');
+    if (start[2] > 0 && start[2] < 10) {
+      startAt = `${+start[0]}-12-0${+start[2]}T19:00:00.000Z`;
+    } else {
+      startAt = `${+start[0]}-12-${+start[2]}T19:00:00.000Z`;
+    }
+    start12 = false;
+  }
+  if (end[1] === '12') {
+    console.log('in end12');
+    end12 = false;
+    if (end[2] > 0 && end[2] < 10) {
+      endAt = `${+end[0]}-12-0${+start[2]}T19:00:00.000Z`;
+    } else {
+      endAt = `${+end[0]}-12-${+end[2]}T19:00:00.000Z`;
+    }
+  }
+
+  isstartTrue = false;
+  isend = false;
+  if (start12) {
+    if (+start[2] === sfirstDay) {
+      start[2] = 1 + '';
+      isstartTrue = true;
+      console.log('In starts');
+      console.log('In starts');
+    }
+    if (+start[2] === sendDay) {
+      start[2] = 1 + '';
+      start[1] = (+start[1] + 1).toString();
+      isstartTrue = true;
+    }
+  }
+  if (end12) {
+    if (+end[2] === efirstDay) {
+      end[2] = 2 + '';
+      isend = true;
+    }
+    if (+end[2] === eendDay) {
+      end[2] = 1 + '';
+      end[1] = (+end[1] + 1).toString();
+      isend = true;
+    }
+  }
+  if (isstartTrue) {
+    start[2] = +start[2] + 1;
+    startAt = new Date(
+      start[0] + '-' + start[1] + '-' + (+start[2] - 1)
+    ).toISOString();
+  } else if (start12) {
+    startAt = new Date(
+      start[0] + '-' + start[1] + '-' + (+start[2] + 1)
+    ).toISOString();
+  }
+  if (isend) {
+    end[2] = +end[2] + 1;
+    endAt = new Date(end[0] + '-' + end[1] + '-' + (+end[2] - 1)).toISOString();
+  } else if (end12) {
+    endAt = new Date(end[0] + '-' + end[1] + '-' + (+end[2] + 1)).toISOString();
+  }
+  return { startAt, endAt };
+}

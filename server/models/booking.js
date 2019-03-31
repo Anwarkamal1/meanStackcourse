@@ -6,10 +6,12 @@ const MongooseHelpers = require('../helpers/mongoose');
 const bookingSchema = new Schema(
   {
     startAt: {
+      // type: Date,
       type: String,
       required: 'Starting date is required'
     },
     endAt: {
+      // type: Date,
       type: String,
       required: 'Ending date is required'
     },

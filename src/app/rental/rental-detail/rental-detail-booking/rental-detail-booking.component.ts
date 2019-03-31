@@ -17,7 +17,6 @@ import { NotificationService } from './../../../common/service/notification.serv
 import * as moment from 'moment';
 import { BookingService } from './../../../booking/shared/booking.service';
 import { DaterangePickerComponent } from 'ng2-daterangepicker';
-import { element } from 'protractor';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -56,9 +55,10 @@ export class RentalDetailBookingComponent implements OnInit {
     this.newBooking = new Booking();
   }
   private checkForInvalidDate(date) {
+    // console.log(date);
     return (
       this.bookedOutDates.includes(
-        this.helperService.formatBookingDate(date)
+        this.helperService.formatDateForComparision(date)
       ) || date.diff(moment(), 'days') < 0
     );
 

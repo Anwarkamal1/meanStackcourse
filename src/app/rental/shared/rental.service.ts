@@ -20,4 +20,10 @@ export class RentalService {
   create(rental: Rental): Observable<any> {
     return this.http.post<any>(`/api/v1/rentals`, rental);
   }
+  getUserRentals(): Observable<any> {
+    return this.http.get<any>(`api/v1/rentals/manage`);
+  }
+  public deleteRental(rentalId: string): Observable<any> {
+    return this.http.delete<any>(`/api/v1/rentals/${rentalId}`);
+  }
 }

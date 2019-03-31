@@ -68,7 +68,7 @@ exports.deleteRental = async (req, res, next) => {
         path: 'bookings',
         select: 'startAt',
         match: {
-          startAt: { $gt: new Date() }
+          startAt: { $gt: new Date().toISOString() }
         }
       })
       .exec();
@@ -92,6 +92,7 @@ exports.deleteRental = async (req, res, next) => {
       ];
       throw err.errors;
     }
+    // console.log(rental);
     if (rental.bookings.length > 0) {
       err.errors = [
         {
