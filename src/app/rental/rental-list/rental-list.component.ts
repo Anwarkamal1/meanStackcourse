@@ -25,7 +25,7 @@ export class RentalListComponent implements OnInit {
       },
       (err: HttpErrorResponse) => {
         this.errors.push(...err.error);
-        this.notify.getErrors(err);
+        // this.notify.getErrors(err);
       }
       // () => {
       //   console.log('completed');
