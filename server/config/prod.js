@@ -3,7 +3,6 @@ module.exports = {
   SECRET: process.env.SECRET
 };
 
-// mongodb+srv://Anwar_kamal:<password>@cluster0-4d39x.mongodb.net/test?retryWrites=true
 
 /**
  * create mongodb database and secret for jwt and take its uri and create horoku config values and pass it there in value field
