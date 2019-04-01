@@ -163,8 +163,9 @@ function populateDate(start, end, sfirstDay, sendDay, efirstDay, eendDay) {
   let start12 = true,
     end12 = true;
   let startAt, endAt;
+  console.log(start, end, sendDay, eendDay, efirstDay, efirstDay);
   if (start[1] === '12') {
-    if (start[2] > 0 && start[2] < 10) {
+    if (start[2] > -1 && start[2] < 10) {
       startAt = `${+start[0]}-12-0${+start[2]}T19:00:00.000Z`;
     } else {
       startAt = `${+start[0]}-12-${+start[2]}T19:00:00.000Z`;
@@ -173,7 +174,7 @@ function populateDate(start, end, sfirstDay, sendDay, efirstDay, eendDay) {
   }
   if (end[1] === '12') {
     end12 = false;
-    if (end[2] > 0 && end[2] < 10) {
+    if (end[2] > -1 && end[2] < 10) {
       endAt = `${+end[0]}-12-0${+start[2]}T19:00:00.000Z`;
     } else {
       endAt = `${+end[0]}-12-${+end[2]}T19:00:00.000Z`;
@@ -186,6 +187,7 @@ function populateDate(start, end, sfirstDay, sendDay, efirstDay, eendDay) {
     if (+start[2] === sfirstDay) {
       start[2] = 1 + '';
       isstartTrue = true;
+      console.log('in firsts');
     }
     if (+start[2] === sendDay) {
       start[2] = 1 + '';
@@ -207,7 +209,7 @@ function populateDate(start, end, sfirstDay, sendDay, efirstDay, eendDay) {
   if (isstartTrue) {
     start[2] = +start[2] + 1;
     startAt = new Date(
-      start[0] + '-' + start[1] + '-' + (+start[2] - 1)
+      start[0] + '-' + start[1] + '-' + start[2]
     ).toISOString();
   } else if (start12) {
     startAt = new Date(
@@ -220,5 +222,6 @@ function populateDate(start, end, sfirstDay, sendDay, efirstDay, eendDay) {
   } else if (end12) {
     endAt = new Date(end[0] + '-' + end[1] + '-' + (+end[2] + 1)).toISOString();
   }
+  console.log(startAt, endAt);
   return { startAt, endAt };
 }
