@@ -207,7 +207,7 @@ function populateDate(start, end, sfirstDay, sendDay, efirstDay, eendDay) {
     }
   }
   if (isstartTrue) {
-    start[2] = +start[2] + 1;
+    // start[2] = +start[2] + 1;
     startAt = new Date(
       start[0] + '-' + start[1] + '-' + start[2]
     ).toISOString();
