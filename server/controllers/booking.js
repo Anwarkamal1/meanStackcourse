@@ -213,14 +213,14 @@ function populateDate(start, end, sfirstDay, sendDay, efirstDay, eendDay) {
     ).toISOString();
   } else if (start12) {
     startAt = new Date(
-      start[0] + '-' + start[1] + '-' + (+start[2] + 1)
+      start[0] + '-' + start[1] + '-' + +start[2]
     ).toISOString();
   }
   if (isend) {
     end[2] = +end[2] + 1;
     endAt = new Date(end[0] + '-' + end[1] + '-' + (+end[2] - 1)).toISOString();
   } else if (end12) {
-    endAt = new Date(end[0] + '-' + end[1] + '-' + (+end[2] + 1)).toISOString();
+    endAt = new Date(end[0] + '-' + end[1] + '-' + +end[2]).toISOString();
   }
   console.log(startAt, endAt);
   return { startAt, endAt };
