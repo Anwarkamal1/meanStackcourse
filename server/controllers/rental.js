@@ -284,7 +284,6 @@ exports.verifyUser = async (req, res, next) => {
       ];
       throw err.errors;
     }
-    console.log('in rantal');
     res.status(200).json({ status: 'verified' });
   } catch (err) {
     if (err.errors) {

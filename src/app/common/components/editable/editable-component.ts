@@ -13,7 +13,6 @@ export class EditableComponent implements OnChanges {
   @Input() set field(entityField: string) {
     this.entityField = entityField;
     this.setOriginValue();
-    console.log('in setter', this.entity[this.entityField]);
   }
   isActiveInput: boolean = false;
   @Input() className: string;

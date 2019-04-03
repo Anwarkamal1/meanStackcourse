@@ -5,16 +5,30 @@ const MongooseHelpers = require('../helpers/mongoose');
 exports.createBooking = async (req, res, next) => {
   let { startAt, endAt, totalPrice, guests, days, rental } = req.body;
   try {
-    let startd = req.body.startAt.split('-');
-    let endd = req.body.endAt.split('-');
-    var sfirstDay = new Date(+start[0], +start[1], 1).getDate();
-    var slastDay = new Date(+start[0], +start[1], 0).getDate();
-    var efirstDay = new Date(+end[0], +end[1], 1).getDate();
-    var elastDay = new Date(+end[0], +end[1], 0).getDate();
+    let startd = req.body.startAt.split('/');
+    let endd = req.body.endAt.split('/');
+    let start = req.body.startAt.split('-');
+    let end = req.body.endAt.split('-');
+    var sfirstDay = new Date(+startd[0], +startd[1], 1).getDate();
+    var slastDay = new Date(+startd[0], +startd[1], 0).getDate();
+    var efirstDay = new Date(+endd[0], +endd[1], 1).getDate();
+    var elastDay = new Date(+endd[0], +endd[1], 0).getDate();
     if (startd.length > 1) {
       const dates = populateDate(
         startd,
         endd,
+        sfirstDay,
+        slastDay,
+        efirstDay,
+        elastDay
+      );
+      startAt = dates.startAt;
+      endAt = dates.endAt;
+    }
+    if (start.length > 1) {
+      const dates = populateDate(
+        start,
+        end,
         sfirstDay,
         slastDay,
         efirstDay,
@@ -74,6 +88,7 @@ exports.createBooking = async (req, res, next) => {
     await User.updateOne({ _id: user._id }, { $push: { bookings: booking } });
     res.status(201).json({ startAt: booking.startAt, endAt: booking.endAt });
   } catch (err) {
+    console.log(err);
     if (err.errors) {
       err = MongooseHelpers.normalizeErrors(err.errors);
     }
@@ -175,6 +190,7 @@ function populateDate(start, end, sfirstDay, sendDay, efirstDay, eendDay) {
   } else {
     endAt = `${+end[0]}-${+end[1]}-${+end[2]}`;
   }
+  console.log(startAt, endAt);
   return {
     startAt,
     endAt
