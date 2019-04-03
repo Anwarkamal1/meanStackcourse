@@ -45,6 +45,7 @@ const ser = server.listen(PORT, () => {
   console.log(new Date().toLocaleString());
   console.log(new Date(2019 + '-' + 12 + '-' + 13).toISOString());
   console.log(new Date(2019 + '/' + 4 + '/' + 12).toDateString());
+  console.log(new Date(2019, 11, 8));
   // mongoose.set('useCreateIndex', true);
   mongoose
     .connect(config.DB_URI, {

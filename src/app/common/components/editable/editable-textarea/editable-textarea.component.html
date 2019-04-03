@@ -1,0 +1,15 @@
+<!-- class='{{className}}' -->
+<div class='editable-component' [ngStyle]='style'>
+  <textarea *ngIf="isActiveInput" placeholder='Update {{field}}' (keyup.enter)='updateEntity()'
+    (keydown.escape)='cancelUpdate()' [(ngModel)]="entity[entityField]" [value]='entity[entityField]' rows='{{rows}}'
+    cols='{{cols}}'></textarea>
+  <span *ngIf="!isActiveInput" class='{{className}} inline'>
+    {{entity[entityField] | ucwords}}
+  </span>
+  <div class='inline'>
+    <button *ngIf="!isActiveInput" class='btn btn-sm btn-warning btn-editable'
+      (click)='isActiveInput = true'>Edit</button>
+    <button class='btn btn-sm btn-success btn-save' *ngIf="isActiveInput" (click)='updateEntity()'>Save</button>
+    <button class='btn btn-sm btn-danger btn-cancel' *ngIf="isActiveInput" (click)='cancelUpdate()'>Cancel</button>
+  </div>
+</div>

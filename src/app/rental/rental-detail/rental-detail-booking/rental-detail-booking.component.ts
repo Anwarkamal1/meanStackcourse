@@ -76,7 +76,7 @@ export class RentalDetailBookingComponent implements OnInit {
           booking.endAt
         );
         this.bookedOutDates.push(...dateRange);
-        console.log(this.bookedOutDates);
+        // console.log(this.bookedOutDates);
       });
     }
   }

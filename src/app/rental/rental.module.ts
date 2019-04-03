@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { NgPipesModule } from 'ngx-pipes';
 import { FormsModule } from '@angular/forms';
 
+import { NgPipesModule } from 'ngx-pipes';
 import { Daterangepicker } from 'ng2-daterangepicker';
-import { MapModule } from './../common/map/map.module';
 import { UpperCasePipe } from '../common/pipes/uppercase.pipe';
+
+import { MapModule } from './../common/map/map.module';
+import { EditableModule } from './../common/components/editable/editable.module';
 
 import { RentalListComponent } from './rental-list/rental-list.component';
 import { RentalListItemComponent } from './rental-list-item/rental-list-item.component';
@@ -22,18 +24,25 @@ import { AuthGuard } from './../auth/shared/auth.guard';
 import { BookingService } from './../booking/shared/booking.service';
 import { HelperService } from './../common/service/helper.service';
 import { RentalCreateComponent } from './rental-create/rental-create.component';
+import { RentalUpdateComponent } from './rental-update/rental-update.component';
+import { RentalGuard } from './shared/rental.guard';
 
 const routes: Routes = [
   {
     path: 'rentals',
     component: RentalComponent,
+
     children: [
       { path: '', component: RentalListComponent },
-
       {
         path: 'new',
         component: RentalCreateComponent,
         canActivate: [AuthGuard]
+      },
+      {
+        path: ':rentalId/edit',
+        component: RentalUpdateComponent,
+        canActivate: [AuthGuard, RentalGuard]
       },
       {
         path: ':rentalId',
@@ -55,7 +64,8 @@ const routes: Routes = [
     UpperCasePipe,
     RentalDetailBookingComponent,
     RentalSearchComponent,
-    RentalCreateComponent
+    RentalCreateComponent,
+    RentalUpdateComponent
   ],
   imports: [
     CommonModule,
@@ -64,8 +74,9 @@ const routes: Routes = [
     NgPipesModule,
     FormsModule,
     MapModule,
+    EditableModule,
     Daterangepicker
   ],
-  providers: [RentalService, HelperService, BookingService]
+  providers: [RentalService, RentalGuard, HelperService, BookingService]
 })
 export class RentalModule {}

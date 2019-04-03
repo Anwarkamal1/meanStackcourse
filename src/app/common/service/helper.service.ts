@@ -8,8 +8,8 @@ export class HelperService {
     const tempDates = [];
     const mEndat = new Date(endAt);
     let mStartAt = new Date(startAt);
-    const startdatesplits = startAt.split('T')[0].split('-');
-    const enddatesplit = endAt.split('T')[0].split('-');
+    const startdatesplits = startAt.split('-');
+    const enddatesplit = endAt.split('-');
     let customdates = startdatesplits[2];
     let custommonths = startdatesplits[1];
     let arraysm = Array.from(custommonths);
@@ -38,48 +38,12 @@ export class HelperService {
         customdates
     );
     while (mStartAt < mEndat) {
-      // let day = startdatesplits[2];
-      // let month = startdatesplits[1];
-      // let arrayd = Array.from(day);
-      // let arraym = Array.from(month);
-      // if (arrayd[0] === '0') {
-      //   day = startdatesplits[2][1];
-      // }
-      // if (arraym[0] === '0') {
-      //   month = startdatesplits[1][1];
-      // }
-      // tempDates.push(
-      //         check[0] + dateFormat + (+check[1] - 1) + dateFormat + slastDay
-      //       );
-
-      if (tempDates.indexOf(this.formatBookingDate(mStartAt)) === -1) {
-        // let dates = this.formatBookingDate(mStartAt);
-        // let check = dates.split(dateFormat);
-        // if (+check[2] === 0) {
-        //   if (+check[1] === 0) {
-        //     tempDates.push(+check[0] - 1 + dateFormat + 11 + dateFormat + 31);
-        //     // console.log('hello', dates, new Date(+dates[0], 1, 0).getDate());
-        //   } else {
-        //     var slastDay = new Date(+dates[0], +dates[1], 0).getDate();
-        //     tempDates.push(
-        //       check[0] + dateFormat + (+check[1] - 1) + dateFormat + slastDay
-        //     );
-        //   }
-        // } else {
-        //   tempDates.push(this.formatBookingDate(mStartAt));
-        // }
-      }
       tempDates.push(
         mStartAt.getFullYear() +
           dateFormat +
           mStartAt.getMonth() +
           dateFormat +
           mStartAt.getDate()
-      );
-      console.log(
-        mStartAt.getFullYear(),
-        mStartAt.getMonth(),
-        mStartAt.getDate()
       );
 
       mStartAt.setDate(mStartAt.getDate() + 1);
@@ -116,13 +80,7 @@ date   */
   formatforSaving(date) {
     const formatDate = new Date(date);
     if (formatDate.getMonth() === 11) {
-      return (
-        formatDate.getFullYear() +
-        Booking.DATE_FORMATMID +
-        12 +
-        Booking.DATE_FORMATMID +
-        formatDate.getDate()
-      );
+      return formatDate.getFullYear() + '-' + 12 + '-' + formatDate.getDate();
     }
     return (
       formatDate.getFullYear() +

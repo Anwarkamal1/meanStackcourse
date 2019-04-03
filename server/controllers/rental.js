@@ -57,18 +57,68 @@ exports.createRental = async (req, res, next) => {
     next(err);
   }
 };
+exports.updateRental = async (req, res, next) => {
+  const rentalData = req.body;
+  const user = res.locals.user;
+  const err = new Error();
+
+  try {
+    const rental = await Rental.findOne({ _id: req.params._id })
+      .populate('user')
+      .exec();
+    if (!rental) {
+      err.errors = [
+        {
+          title: `Not found`,
+          detail: `Rental not found!`,
+          status: 404
+        }
+      ];
+      throw err.errors;
+    }
+    if (rental.user._id.toString() !== user._id.toString()) {
+      err.errors = [
+        {
+          title: `Invalid User`,
+          detail: `You're not rental owner!`,
+          status: 401
+        }
+      ];
+      throw err.errors;
+    }
+    rental.set(rentalData);
+    // await Rental.updateOne(
+    //   { _id: rental._id },
+    //   { $set: rental },
+    //   { new: true }
+    // ).exec();
+    // const updatedRentaal = await Rental.updateOne(
+    //   { _id: rental._id },
+    //   rentalData
+    // ).exec();
+    await rental.save();
+    res.status(200).json({ rental: rental });
+  } catch (err) {
+    // console.log(err);
+    if (err.errors) {
+      err = MongooseHelper.normalizeErrors(err.errors);
+    }
+    next(err);
+  }
+};
 exports.deleteRental = async (req, res, next) => {
   const _id = req.params._id;
   const user = res.locals.user;
   const err = new Error();
   try {
+    const todayDate = new Date().toISOString().split('T')[0];
     const rental = await Rental.findOne({ _id })
       .populate('user', '_id')
       .populate({
         path: 'bookings',
         select: 'startAt',
         match: {
-          startAt: { $gt: new Date().toISOString() }
+          startAt: { $gt: todayDate }
         }
       })
       .exec();
@@ -201,6 +251,42 @@ exports.getUserRentals = async (req, res, next) => {
     }
     res.status(200).json({ rentals: rentals });
   } catch (error) {
+    if (err.errors) {
+      err = MongooseHelper.normalizeErrors(err.errors);
+    }
+    next(err);
+  }
+};
+exports.verifyUser = async (req, res, next) => {
+  const user = res.locals.user;
+  const err = new Error();
+  try {
+    const rental = await Rental.findOne({ _id: req.params._id })
+      .populate('user')
+      .exec();
+    if (!rental) {
+      err.errors = [
+        {
+          title: `Not found`,
+          detail: `No rental Exists with this ID!`,
+          status: 404
+        }
+      ];
+      throw err.errors;
+    }
+    if (rental.user._id.toString() !== user._id.toString()) {
+      err.errors = [
+        {
+          title: `Invalid User`,
+          detail: `You're not rental owner!`,
+          status: 401
+        }
+      ];
+      throw err.errors;
+    }
+    console.log('in rantal');
+    res.status(200).json({ status: 'verified' });
+  } catch (err) {
     if (err.errors) {
       err = MongooseHelper.normalizeErrors(err.errors);
     }
