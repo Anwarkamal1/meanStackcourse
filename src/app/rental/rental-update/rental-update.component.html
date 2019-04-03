@@ -1,0 +1,108 @@
+<section id="rentalDetails" *ngIf="rental">
+  <div class="upper-section">
+    <div class="row">
+      <div class="col-md-12">
+        <img src="{{rental.image}}" alt="">
+      </div>
+      <!-- <div class="col-md-6">
+        <app-map [location]="rental.city +', ' + rental.street"></app-map>
+      </div> -->
+    </div>
+  </div>
+
+  <div class="details-section">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="rental">
+          <h2 class="rental-type {{rental.category}}">
+            {{rental.shared ? 'Shared': 'Whole' }}
+            <app-editable-select (entityUpdated)='updateRental(rental._id,$event)' [options]="[true, false]"
+              [(entity)]="rental" [field]="'shared'" [style]="{'display': 'inline-block'}"
+              [className]="'rental-shared'"></app-editable-select>
+            <app-editable-select (entityUpdated)='updateRental(rental._id,$event)' [options]="rentalCategories"
+              [(entity)]="rental" [field]="'category'" [className]="'rental-category'"></app-editable-select>
+
+          </h2>
+          <div class="rental-owner">
+            <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="">
+            <span>{{rental.user.username}}</span>
+          </div>
+          <app-editable-input (entityUpdated)='updateRental(rental._id,$event)' [(entity)]="rental" [field]="'title'"
+            [className]="'rental-title'"></app-editable-input>
+          <app-editable-input (entityUpdated)='updateRental(rental._id,$event)' [(entity)]="rental" [field]="'city'"
+            [className]="'rental-city'"></app-editable-input>
+
+          <app-editable-input (entityUpdated)='updateRental(rental._id,$event)' [(entity)]="rental" [field]="'street'"
+            [className]="'rental-street'"></app-editable-input>
+
+          <div class="rental-room-info">
+            <span><i class="fa fa-building"></i>
+              <app-editable-input [style]="{'display': 'inline-block'}" [type]="'number'"
+                (entityUpdated)='updateRental(rental._id,$event)' [(entity)]="rental" [field]="'bedrooms'"
+                [className]="'rental-bedrooms'"></app-editable-input> bedrooms
+            </span>
+            <span><i class="fa fa-user"></i> {{countBedroomAssets(4)}} guests</span>
+            <span><i class="fa fa-bed"></i> {{countBedroomAssets(2)}} beds</span>
+          </div>
+          <app-editable-textarea [rows]="'5'" [cols]="'25'" [style]="{'display': 'inline-block'}"
+            (entityUpdated)='updateRental(rental._id,$event)' [(entity)]="rental" [field]="'description'"
+            [className]="'rental-description'"></app-editable-textarea>
+
+          <!-- <div class="rental-rating">
+            <span>{{rating}} / 5</span>
+          </div> -->
+          <hr>
+          <div class="rental-assets">
+            <h3 class="title">Assets</h3>
+            <div class="row">
+              <div class="col-md-6">
+                <span><i class="fa fa-asterisk"></i> Cooling</span>
+                <span><i class="fa fa-thermometer"></i> Heating</span>
+                <span><i class="fa fa-location-arrow"></i> Iron</span>
+              </div>
+              <div class="col-md-6">
+                <span><i class="fa fa-desktop"></i> Working area</span>
+                <span><i class="fa fa-cube"></i> Washing machine</span>
+                <span><i class="fa fa-cube"></i> Dishwasher</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+
+        <app-rental-detail-booking [rental]="rental">
+        </app-rental-detail-booking>
+      </div>
+    </div>
+    <!-- <div class="row">
+      <div class="col-md-8">
+        <section>
+          <h2>Reviews</h2>
+          <div *ngFor="let review of reviews" class="card review-card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-2">
+                  <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid" />
+                  <p class="text-secondary text-center">{{formatDate(review.createdAt)}}</p>
+                </div>
+                <div class="col-md-10">
+                  <div>
+                    <a><strong>{{review.user.username}}</strong></a>
+                    <div class="review-section">
+                      <star-rating [starType]="'svg'" [numOfStars]="5" [showHalfStars]="true" [disabled]="true"
+                        [rating]="review.rating">
+                      </star-rating>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <p>{{review.text}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div> -->
+  </div>
+</section>
