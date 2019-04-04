@@ -8,8 +8,8 @@ export class HelperService {
     const tempDates = [];
     const mEndat = new Date(endAt);
     let mStartAt = new Date(startAt);
-    const startdatesplits = startAt.split('-');
-    const enddatesplit = endAt.split('-');
+    const startdatesplits = startAt.split('T')[0].split('-');
+    const enddatesplit = endAt.split('T')[0].split('-');
     let customdates = startdatesplits[2];
     let custommonths = startdatesplits[1];
     let arraysm = Array.from(custommonths);
@@ -80,7 +80,13 @@ date   */
   formatforSaving(date) {
     const formatDate = new Date(date);
     if (formatDate.getMonth() === 11) {
-      return formatDate.getFullYear() + '-' + 12 + '-' + formatDate.getDate();
+      return (
+        formatDate.getFullYear() +
+        Booking.DATE_FORMATMID +
+        12 +
+        Booking.DATE_FORMATMID +
+        formatDate.getDate()
+      );
     }
     return (
       formatDate.getFullYear() +

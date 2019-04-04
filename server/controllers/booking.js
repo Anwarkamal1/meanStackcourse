@@ -100,43 +100,18 @@ function isValidBooking(proposedBooking, rental) {
   let isValid = true;
   if (rental.bookings && rental.bookings.length > 0) {
     let startp = proposedBooking.startAt.split('-');
-    let smonth = startp[1];
-    if (+startp[1] > 11) {
-      smonth = +startp[1] - 1;
-    }
-    startp[1] = smonth;
     let endp = proposedBooking.endAt.split('-');
-    let emonth = endp[1];
-    if (+endp[1] > 11) {
-      emonth = +endp[1] - 1;
-    }
-    endp[1] = emonth;
     const proposedStart = +new Date(startp);
     const proposedEnd = +new Date(endp);
-    console.log(new Date(startp), new Date(endp));
+
     isValid = rental.bookings.every(booking => {
-      let startd = booking.startAt.split('-');
-      let endd = booking.endAt.split('-');
-      let actualStart = -1;
-      let actualEnd = -1;
-      if (+startd[1] === 12) {
-        start12 = false;
-        actualStart = +new Date(`${+startd[0]}-12-${+startd[2]}`);
-      } else if (+endd[1] === 01) {
-        actualStart = +new Date(`${+startd[0]}-01-${+startd[2]}`);
-      } else {
-        actualStart = +new Date(
-          `${+startd[0]}-${startd[1] - 1}-${+startd[2] + 1}`
-        );
-      }
-      if (+endd[1] === 12) {
-        end12 = false;
-        actualEnd = +new Date(`${+endd[0]}-12-${+endd[2]}`);
-      } else if (+endd[1] === 01) {
-        actualEnd = +new Date(`${+endd[0]}-01-${+endd[2]}`);
-      } else {
-        actualEnd = +new Date(`${+endd[0]}-${+endd[1] - 1}-${+endd[2] + 1}`);
-      }
+      let startd = booking.startAt.split('T')[0].split('-');
+
+      let endd = booking.endAt.split('T')[0].split('-');
+
+      let actualStart = +new Date(`${+startd[0]}-${+startd[1]}-${+startd[2]}`);
+      let actualEnd = +new Date(`${+endd[0]}-${endd[1]}-${+endd[2]}`);
+
       return (
         (actualStart < proposedStart && actualEnd < proposedEnd) ||
         (proposedEnd < actualEnd && proposedEnd < actualStart)
@@ -172,25 +147,29 @@ exports.getUserBookings = async (req, res, next) => {
 };
 function populateDate(start, end, sfirstDay, sendDay, efirstDay, eendDay) {
   let startAt, endAt;
-  if (+start[1] < 10 && +start[2] < 10) {
-    startAt = `${+start[0]}-0${+start[1]}-0${+start[2]}`;
-  } else if (+start[1] < 10) {
-    startAt = `${+start[0]}-0${+start[1]}-${+start[2]}`;
-  } else if (+start[2] < 10) {
-    startAt = `${+start[0]}-${+start[1]}-0${+start[2]}`;
-  } else {
-    startAt = `${+start[0]}-${+start[1]}-${+start[2]}`;
-  }
-  if (+end[1] < 10 && +end[2] < 10) {
-    endAt = `${+end[0]}-0${+end[1]}-0${+end[2]}`;
-  } else if (+end[1] < 10) {
-    endAt = `${+end[0]}-0${+end[1]}-${+end[2]}`;
-  } else if (+end[2] < 10) {
-    endAt = `${+end[0]}-${+end[1]}-0${+end[2]}`;
-  } else {
-    endAt = `${+end[0]}-${+end[1]}-${+end[2]}`;
-  }
+  startAt = `${+start[0]}-${+start[1]}-${+start[2]}`;
+  // if (+start[1] < 10 && +start[2] < 10) {
+  //   startAt = `${+start[0]}-0${+start[1]}-0${+start[2]}`;
+  // } else if (+start[1] < 10) {
+  //   startAt = `${+start[0]}-0${+start[1]}-${+start[2]}`;
+  // } else if (+start[2] < 10) {
+  //   startAt = `${+start[0]}-${+start[1]}-0${+start[2]}`;
+  // } else {
+  //   startAt = `${+start[0]}-${+start[1]}-${+start[2]}`;
+  // }
+  endAt = `${+end[0]}-${+end[1]}-${+end[2]}`;
+  // if (+end[1] < 10 && +end[2] < 10) {
+  //   endAt = `${+end[0]}-0${+end[1]}-0${+end[2]}`;
+  // } else if (+end[1] < 10) {
+  //   endAt = `${+end[0]}-0${+end[1]}-${+end[2]}`;
+  // } else if (+end[2] < 10) {
+  //   endAt = `${+end[0]}-${+end[1]}-0${+end[2]}`;
+  // } else {
+  //   endAt = `${+end[0]}-${+end[1]}-${+end[2]}`;
+  // }
+
   console.log(startAt, endAt);
+  console.log('inpop');
   return {
     startAt,
     endAt

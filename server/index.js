@@ -42,10 +42,12 @@ app.use((error, req, res, next) => {
 const server = http.createServer(app);
 const ser = server.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}...`);
-  console.log(new Date().toLocaleString());
-  console.log(new Date(2019 + '-' + 12 + '-' + 13).toISOString());
-  console.log(new Date(2019 + '/' + 4 + '/' + 12).toDateString());
-  console.log(new Date(2019, 11, 8));
+  // console.log(new Date().toLocaleString());
+  // console.log(new Date(2019 + '-' + 12 + '-' + 13).toISOString());
+  // console.log(new Date(2019 + '/' + 4 + '/' + 12).toDateString());
+  // console.log(new Date(2019, 11, 8));
+  console.log('in start12', new Date(2019, 2, 32));
+
   // mongoose.set('useCreateIndex', true);
   mongoose
     .connect(config.DB_URI, {
