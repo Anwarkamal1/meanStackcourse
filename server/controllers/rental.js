@@ -3,14 +3,19 @@ const mongoose = require('mongoose');
 const fakeDb = require('../fake-db');
 const MongooseHelper = require('../helpers/mongoose');
 const User = require('../models/user');
+const cloudinary = require('cloudinary');
 
 const ObjectId = mongoose.Types.ObjectId;
 exports.uploadPicture = (req, res, next) => {
   // console.log(req);
   const err = new Error();
   try {
-    const url = req.protocol + '://' + req.get('host');
-    let imagePath1 = url + '/' + req.file.path;
+    let imagePath1 = '';
+    cloudinary.uploader.upload(req.file.path, function(result) {
+      imagePath1 = result.secure_url;
+    });
+    // const url = req.protocol + '://' + req.get('host');
+    // let imagePath1 = url + '/' + req.file.path;
     // console.log(imagePath1);
     // let imagePath = req.file.path;
     // console.log(imagePath);

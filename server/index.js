@@ -11,6 +11,7 @@ const bookingRoutes = require('./routes/bookings');
 const rootDir = require('./utils/rootdir');
 const FakeDb = require('./fake-db');
 const app = express();
+const cloudinary = require('cloudinary');
 const fileFilter = (req, file, cb, next) => {
   // console.log(file);
   if (
@@ -32,9 +33,9 @@ const fileFilter = (req, file, cb, next) => {
   }
 };
 const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './assets');
-  },
+  // destination: (req, file, cb) => {
+  //   cb(null, './assets');
+  // },
   filename: (req, file, cb) => {
     // console.log(file);
     cb(
@@ -61,6 +62,11 @@ app.use(
     fileFilter: fileFilter
   }).single('image')
 );
+cloudinary.config({
+  cloud_name: 'myimagegallery',
+  api_key: config.CLOUDINARY_API_KEY,
+  api_secret: config.CLOUDINARY_API_SECRET
+});
 app.use('/api/v1/rentals', rentalRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
