@@ -48,7 +48,7 @@ export class RentalCreateComponent implements OnInit {
         this.router.navigate([`/rentals/${rental.rental._id}`]);
       },
       (err: HttpErrorResponse) => {
-        console.log(err.error);
+        // console.log(err.error);
         this.errors.push(...err.error);
         // this.notify.getErrors(err);
       }
