@@ -5,7 +5,24 @@ const MongooseHelper = require('../helpers/mongoose');
 const User = require('../models/user');
 
 const ObjectId = mongoose.Types.ObjectId;
-
+exports.uploadPicture = (req, res, next) => {
+  // console.log(req);
+  const err = new Error();
+  try {
+    const url = req.protocol + '://' + req.get('host');
+    let imagePath1 = url + '/assets/' + req.file.filename;
+    console.log(imagePath1);
+    let imagePath = req.file.path;
+    // console.log(imagePath);
+    res.status(200).json({ imagePath: imagePath });
+  } catch (err) {
+    // console.log(err);
+    if (err.errors) {
+      err = MongooseHelper.normalizeErrors(err.errors);
+    }
+    next(err);
+  }
+};
 exports.createRental = async (req, res, next) => {
   const err = new Error();
 
@@ -13,8 +30,8 @@ exports.createRental = async (req, res, next) => {
     title,
     city,
     street,
-    category,
     image,
+    category,
     shared,
     bedrooms,
     description,

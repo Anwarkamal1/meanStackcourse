@@ -38,6 +38,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "mongoose": "^5.4.19",
+    "multer": "^1.4.1",
     "ng2-daterangepicker": "^2.0.12",
     "ngx-pipes": "^2.4.6",
     "ngx-toastr": "^10.0.2",

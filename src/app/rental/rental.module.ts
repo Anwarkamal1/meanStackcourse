@@ -26,6 +26,7 @@ import { HelperService } from './../common/service/helper.service';
 import { RentalCreateComponent } from './rental-create/rental-create.component';
 import { RentalUpdateComponent } from './rental-update/rental-update.component';
 import { RentalGuard } from './shared/rental.guard';
+import { ImageUploadModule } from '../common/components/image-upload/image-upload.module';
 
 const routes: Routes = [
   {
@@ -75,7 +76,8 @@ const routes: Routes = [
     FormsModule,
     MapModule,
     EditableModule,
-    Daterangepicker
+    Daterangepicker,
+    ImageUploadModule
   ],
   providers: [RentalService, RentalGuard, HelperService, BookingService]
 })

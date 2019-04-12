@@ -5,44 +5,29 @@ const MongooseHelpers = require('../helpers/mongoose');
 exports.createBooking = async (req, res, next) => {
   let { startAt, endAt, totalPrice, guests, days, rental } = req.body;
   try {
-    let startd = req.body.startAt.split('/');
-    let endd = req.body.endAt.split('/');
-    let start = req.body.startAt.split('-');
-    let end = req.body.endAt.split('-');
-    var sfirstDay = new Date(+startd[0], +startd[1], 1).getDate();
-    var slastDay = new Date(+startd[0], +startd[1], 0).getDate();
-    var efirstDay = new Date(+endd[0], +endd[1], 1).getDate();
-    var elastDay = new Date(+endd[0], +endd[1], 0).getDate();
+    let startd = startAt.split('/');
+    let endd = endAt.split('/');
+    let start = startAt.split('-');
+    let end = endAt.split('-');
+    // var sfirstDay = new Date(+startd[0], +startd[1], 1).getDate();
+    // var slastDay = new Date(+startd[0], +startd[1], 0).getDate();
+    // var efirstDay = new Date(+endd[0], +endd[1], 1).getDate();
+    // var elastDay = new Date(+endd[0], +endd[1], 0).getDate();
+    let start_End_Dates;
     if (startd.length > 1) {
-      const dates = populateDate(
-        startd,
-        endd,
-        sfirstDay,
-        slastDay,
-        efirstDay,
-        elastDay
-      );
-      startAt = dates.startAt;
-      endAt = dates.endAt;
+      start_End_Dates = populateDate(startd, endd);
+      console.log(start_End_Dates);
     }
     if (start.length > 1) {
-      const dates = populateDate(
-        start,
-        end,
-        sfirstDay,
-        slastDay,
-        efirstDay,
-        elastDay
-      );
-      startAt = dates.startAt;
-      endAt = dates.endAt;
+      start_End_Dates = populateDate(start, end);
+      console.log(start_End_Dates);
     }
 
     const user = res.locals.user;
     const err = new Error();
     const booking = new Booking({
-      startAt,
-      endAt,
+      startAt: start_End_Dates.startAt,
+      endAt: start_End_Dates.endAt,
       totalPrice,
       guests,
       days
@@ -145,7 +130,7 @@ exports.getUserBookings = async (req, res, next) => {
     next(err);
   }
 };
-function populateDate(start, end, sfirstDay, sendDay, efirstDay, eendDay) {
+function populateDate(start, end) {
   let startAt, endAt;
   startAt = `${+start[0]}-${+start[1]}-${+start[2]}`;
   // if (+start[1] < 10 && +start[2] < 10) {
