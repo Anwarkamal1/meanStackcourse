@@ -33,7 +33,7 @@ const fileFilter = (req, file, cb, next) => {
 };
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'assets');
+    cb(null, './assets');
   },
   filename: (req, file, cb) => {
     // console.log(file);
