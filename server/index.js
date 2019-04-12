@@ -64,9 +64,14 @@ app.use(
 );
 cloudinary.config({
   cloud_name: 'myimagegallery',
-  api_key: config.CLOUDINARY_API_KEY,
-  api_secret: config.CLOUDINARY_API_SECRET
+  api_key: 492816458562439,
+  api_secret: '9Lbl1T2feLu4rw865kawXhzQHFU'
 });
+// cloudinary.config({
+//   cloud_name: 'myimagegallery',
+//   api_key: config.CLOUDINARY_API_KEY,
+//   api_secret: config.CLOUDINARY_API_SECRET
+// });
 app.use('/api/v1/rentals', rentalRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/bookings', bookingRoutes);

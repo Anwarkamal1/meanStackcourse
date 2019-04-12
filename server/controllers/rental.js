@@ -6,21 +6,22 @@ const User = require('../models/user');
 const cloudinary = require('cloudinary');
 
 const ObjectId = mongoose.Types.ObjectId;
-exports.uploadPicture = (req, res, next) => {
+exports.uploadPicture = async (req, res, next) => {
   // console.log(req);
   const err = new Error();
   try {
     let imagePath1 = '';
     cloudinary.uploader.upload(req.file.path, function(result) {
       imagePath1 = result.secure_url;
+      // const url = req.protocol + '://' + req.get('host');
+      // let imagePath1 = url + '/' + req.file.path;
+      // console.log(imagePath1);
+      // let imagePath = req.file.path;
+      // console.log(imagePath);
+      // console.log(imagePath1);
+
+      res.status(200).json({ imagePath: imagePath1 });
     });
-    // const url = req.protocol + '://' + req.get('host');
-    // let imagePath1 = url + '/' + req.file.path;
-    // console.log(imagePath1);
-    // let imagePath = req.file.path;
-    // console.log(imagePath);
-    console.log(imagePath1);
-    res.status(200).json({ imagePath: imagePath1 });
   } catch (err) {
     // console.log(err);
     if (err.errors) {
