@@ -14,11 +14,12 @@ exports.uploadPicture = (req, res, next) => {
     // console.log(imagePath1);
     // let imagePath = req.file.path;
     // console.log(imagePath);
-    // console.log(imagePath1);
+    console.log(imagePath1);
     res.status(200).json({ imagePath: imagePath1 });
   } catch (err) {
     // console.log(err);
     if (err.errors) {
+      console.log(err);
       err = MongooseHelper.normalizeErrors(err.errors);
     }
     next(err);
